@@ -19,30 +19,30 @@
  */
 use std::fs;
 fn part_1(_input: &str) -> i32 {
-    let mut _level: i32 = 0;
+    let mut level: i32 = 0;
     for c in _input.chars() {
         match c {
-            ')' => _level += -1,
-            '(' => _level += 1,
+            ')' => level += -1,
+            '(' => level += 1,
             _ => ()
         }
     }
-    println!("First puzzle {}", _level);
-    _level
+    println!("First puzzle {}", level);
+    level
 }
 fn part_2(_input: &str) -> usize {
-    let mut _level: i32 = 0;
-    let mut _index: usize = 0;
+    let mut level: i32 = 0;
+    let mut index: usize = 0;
     for c in _input.chars() {
         match c {
-            ')' => _level += -1,
-            '(' => _level += 1,
+            ')' => level += -1,
+            '(' => level += 1,
             _ => ()
         }
-        _index += 1;
-        if _level == -1 {
-            println!("Second puzzle {}", _index);
-            return _index;
+        index += 1;
+        if level == -1 {
+            println!("Second puzzle {}", index);
+            return index;
         }
     }
     0
@@ -56,7 +56,7 @@ fn main() {
 }
 
 #[cfg(test)]
-mod tests {
+mod day01 {
     use super::*;
     #[test]
     fn test_part_1() {
