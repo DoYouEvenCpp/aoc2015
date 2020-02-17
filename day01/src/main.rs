@@ -24,7 +24,7 @@ fn part_1(_input: &str) -> i32 {
         match c {
             ')' => level += -1,
             '(' => level += 1,
-            _ => ()
+            _ => (),
         }
     }
     println!("First puzzle {}", level);
@@ -37,7 +37,7 @@ fn part_2(_input: &str) -> usize {
         match c {
             ')' => level += -1,
             '(' => level += 1,
-            _ => ()
+            _ => (),
         }
         index += 1;
         if level == -1 {
