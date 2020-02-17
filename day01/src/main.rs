@@ -18,32 +18,61 @@
  * cargo fmt
  */
 use std::fs;
-fn part_1(_input: &str) -> bool {
-    true
+fn part_1(_input: &str) -> i32 {
+    let mut _level: i32 = 0;
+    for c in _input.chars() {
+        match c {
+            ')' => _level += -1,
+            '(' => _level += 1,
+            _ => ()
+        }
+    }
+    println!("First puzzle {}", _level);
+    _level
 }
-fn part_2(_input: &str) -> bool {
-    false
+fn part_2(_input: &str) -> usize {
+    let mut _level: i32 = 0;
+    let mut _index: usize = 0;
+    for c in _input.chars() {
+        match c {
+            ')' => _level += -1,
+            '(' => _level += 1,
+            _ => ()
+        }
+        _index += 1;
+        if _level == -1 {
+            println!("Second puzzle {}", _index);
+            return _index;
+        }
+    }
+    0
 }
+
 fn main() {
     let content = fs::read_to_string("input").expect("file not found");
     let content = content.trim();
-    println!("{}", content);
     part_1(&content);
     part_2(&content);
 }
+
 #[cfg(test)]
 mod tests {
     use super::*;
     #[test]
     fn test_part_1() {
-        println!("NO ELO 1");
-        assert!(part_1("input_1"));
-        assert_eq!(true, part_1("input_1"));
+        println!("Running test for part 1");
+        assert_eq!(-3, part_1(")))"));
+        assert_eq!(0, part_1(")))((("));
+        assert_eq!(5, part_1("((((("));
+        assert_eq!(0, part_1(""));
+        assert_eq!(0, part_1("dfgsdgsdf"));
     }
     #[test]
     fn test_part_2() {
-        println!("NO ELO 2");
-        assert!(!part_2("input_2"));
-        assert_eq!(false, part_2("input_2"));
+        println!("Running test for part 2");
+        assert_eq!(1, part_2(")"));
+        assert_eq!(5, part_2("()())"));
+        assert_eq!(0, part_2("fdgsdfgsfd"));
+        assert_eq!(0, part_2(""));
     }
 }
