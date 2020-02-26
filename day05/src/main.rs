@@ -17,21 +17,47 @@ fn has_doubled_letter(input: &str) -> bool {
 }
 
 fn has_no_forbidden_strings(input: &str) -> bool {
-    let forbidden  = ["ab", "cd", "pq", "xy"];
-    !forbidden
-        .iter()
-        .any(|s| input.contains(s))
+    let forbidden = ["ab", "cd", "pq", "xy"];
+    !forbidden.iter().any(|s| input.contains(s))
 }
-
 
 fn part_1(input: &str) -> usize {
-    input
-        .lines()
-        .filter(|s| contains_vovel(s) && has_doubled_letter(s) && has_no_forbidden_strings(s))
-        .count()
+    input.lines().fold(0, |sum, line| {
+        sum + (contains_vovel(line) && has_doubled_letter(line) && has_no_forbidden_strings(line))
+            as usize
+    })
 }
-fn part_2(input: &str) -> bool {
-    true
+
+fn has_single_letter_repetition(input: &str) -> bool {
+    input
+        .chars()
+        .collect::<Vec<char>>()
+        .windows(3)
+        .any(|chars| chars[0] == chars[2])
+}
+
+fn has_pair_repetition(input: &str) -> bool {
+    input
+        .chars()
+        .collect::<Vec<char>>()
+        .windows(2)
+        .enumerate()
+        //.any(|pos, ch| chars[1] != *it.peek().unwrap())
+        .any(|(pos, first)| {
+            input
+                .chars()
+                .skip(pos + 2)
+                .collect::<Vec<char>>()
+                .windows(2)
+                .any(|second| first[0] == second[0] && first[1] == second[1])
+        })
+}
+
+fn part_2(input: &str) -> usize {
+    input.lines().fold(0, |sum, line| {
+        sum + (has_single_letter_repetition(line) && has_pair_repetition(line))
+            as usize
+    })
 }
 
 fn main() {
@@ -48,14 +74,30 @@ mod day01 {
     fn test_part_1() {
         println!("Running test for part 1");
         has_no_forbidden_strings("DUPA");
-        assert_eq!(true, part_1("ugknbfddgicrmopn"));
-        assert_eq!(true, part_1("aaa"));
-        assert_eq!(false, part_1("jchzalrnumimnmhp"));
-        assert_eq!(false, part_1("haegwjzuvuyypxyu"));
-        assert_eq!(false, part_1("dvszwmarrgswjxmb"));
+        assert_eq!(1, part_1("ugknbfddgicrmopn"));
+        assert_eq!(1, part_1("aaa"));
+        assert_eq!(0, part_1("jchzalrnumimnmhp"));
+        assert_eq!(0, part_1("haegwjzuvuyypxyu"));
+        assert_eq!(0, part_1("dvszwmarrgswjxmb"));
     }
     #[test]
     fn test_part_2() {
         println!("Running test for part 2");
+    }
+
+    #[test]
+    fn test_has_single_letter_repetition() {
+        assert_eq!(true, has_single_letter_repetition("ieodomkazucvgmuy"));
+        assert_eq!(true, has_single_letter_repetition("xxyxx"));
+        assert_eq!(true, has_single_letter_repetition("qjhvhtzxzqqjkmpb"));
+        assert_eq!(false, has_single_letter_repetition("uurcxstgmygtbstg"));
+    }
+
+    #[test]
+    fn test_has_pair_repetition() {
+        assert_eq!(true, has_pair_repetition("qjhvhtzxzqqjkmpb"));
+        assert_eq!(true, has_pair_repetition("xxyxx"));
+        assert_eq!(true, has_pair_repetition("uurcxstgmygtbstg"));
+        assert_eq!(false, has_pair_repetition("ieodomkazucvgmuy"));
     }
 }
