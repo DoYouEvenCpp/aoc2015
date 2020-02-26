@@ -42,7 +42,6 @@ fn has_pair_repetition(input: &str) -> bool {
         .collect::<Vec<char>>()
         .windows(2)
         .enumerate()
-        //.any(|pos, ch| chars[1] != *it.peek().unwrap())
         .any(|(pos, first)| {
             input
                 .chars()
@@ -55,8 +54,7 @@ fn has_pair_repetition(input: &str) -> bool {
 
 fn part_2(input: &str) -> usize {
     input.lines().fold(0, |sum, line| {
-        sum + (has_single_letter_repetition(line) && has_pair_repetition(line))
-            as usize
+        sum + (has_single_letter_repetition(line) && has_pair_repetition(line)) as usize
     })
 }
 
