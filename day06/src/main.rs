@@ -99,7 +99,7 @@ fn main() {
 }
 
 #[cfg(test)]
-mod day05 {
+mod day06 {
     use super::*;
     #[test]
     fn test_extract_positions() {
