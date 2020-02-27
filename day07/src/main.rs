@@ -1,7 +1,21 @@
 use std::fs;
+use std::collections::HashMap;
 
+type Entry = (String, String, String);
+type MapType = HashMap<String, Entry>;
+
+fn parse_input(line: &str, _signals: &mut MapType) {
+    let splitted: Vec<&str> = line.splitn(2, " -> ").collect();
+    let key = splitted[1].to_string();
+    let entry: Vec<&str> = splitted[0].splitn(3, " ").collect();
+    println!("{} => \t\t{:?} => \t\t{:?}", line, splitted, entry);
+}
 
 fn part_1(input: &str) -> u32 {
+    let mut map = MapType::new();
+    for l in input.lines() {
+        parse_input(l, &mut map);
+    }
     0
 }
 
@@ -20,6 +34,8 @@ fn main() {
 mod day07 {
     use super::*;
     #[test]
-    fn tesT_part_1() {
+    fn test_parse_input() {
+        let mut map = MapType::new();
+        parse_input("123 -> x", map);
     }
 }
