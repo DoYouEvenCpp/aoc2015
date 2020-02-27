@@ -66,7 +66,7 @@ fn main() {
 }
 
 #[cfg(test)]
-mod day01 {
+mod day05 {
     use super::*;
     #[test]
     fn test_part_1() {
