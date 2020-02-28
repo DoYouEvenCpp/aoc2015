@@ -9,34 +9,54 @@ fn parse_input(line: &str, signals: &mut MapType) {
     let entry: Vec<String> = splitted[0].splitn(3, " ")
         .map(|s| s.to_owned())
         .collect();
+    //println!("{} => \t\t{:?} => \t\t{:?}", line, splitted, entry);
     signals.insert(key, entry);
 }
 
-fn get_value(s: &Vec<String>, signals: &MapType) -> u32 {
+fn extract_value(key: &String, signals: &MapType) -> Vec<String> {
+    if !signals.contains_key(key) {
+        //most probably a value
+        return vec![key.to_string()];
+    }
+    else {
+        return signals.get(key).unwrap().to_vec();
+    }
+}
+
+fn get_value(s: &Vec<String>, signals: &mut MapType) -> u32 {
+    //println!("{:?}", s);
     if s.len() == 3 {
-        println!("{:?}", s);
-        let param1 = &s[0];
-        let param2 = &s[2];
+        let param1 = extract_value(&s[0], signals);
+        let param2 = extract_value(&s[2], signals);
         match s[1].as_str() {
-            "AND" => return get_value(param1, signals) & get_value(param2, signals),
-            "OR" => return get_value(param1, signals) | get_value(param2, signals),
-            "LSHIFT" => return get_value(param1, signals) << get_value(param2, signals),
-            "RSHIFT" => return get_value(param1, signals) >> get_value(param2, signals),
-            _ => ()
+            "AND" => return get_value(&param1, signals) & get_value(&param2, signals),
+            "OR" => return get_value(&param1, signals) | get_value(&param2, signals),
+            "LSHIFT" => return get_value(&param1, signals) << get_value(&param2, signals),
+            "RSHIFT" => return get_value(&param1, signals) >> get_value(&param2, signals),
+            _ => 0
         }
     }
     else if s.len() == 2 {
-        return 0;
+        let param1 = extract_value(&s[1], signals);
+        let val = get_value(&param1, signals);
+        signals.insert(s[1].to_owned(), vec![val.to_string()]);
+        return val;
     }
-    else {
+    else if s.len() == 1{
         if s[0].parse::<u32>().is_ok() {
-            return s[0].parse().unwrap();
+            return s[0].parse::<u32>().unwrap();
         }
         else {
-            return get_value(signals.get(&s[0]).unwrap(), signals);
+            let entry = extract_value(&s[0], signals);
+            let val = get_value(&entry, signals);
+            signals.insert(s[0].to_owned(), vec![val.to_string()]);
+            println!("updated with {:?}", val);
+            return val;
         }
     }
-    0
+    else {
+        panic!("dupa");
+    }
 }
 
 fn part_1(input: &str) -> u32 {
@@ -44,10 +64,15 @@ fn part_1(input: &str) -> u32 {
     for l in input.lines() {
         parse_input(l, &mut map);
     }
-    get_value(map.get("a").unwrap(), &map)
+    // for (k, v) in &map{
+    //     println!("{:?}<===>{:?}", k, v);
+    // }
+
+    let e = extract_value(&"a".to_string(), &map);
+    get_value(&e, &mut map)
 }
 
-fn part_2(input: &str) -> u32 {
+fn part_2(_input: &str) -> u32 {
     0
 }
 
