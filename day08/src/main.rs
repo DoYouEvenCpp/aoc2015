@@ -18,14 +18,21 @@ fn get_total_characters_len(l: &str) -> usize {
     count
 }
 
+fn encode_characters(l: &str) -> usize {
+    let predicate = |c: &char| c == &'"' || c == &'\\';
+    l.chars().filter(predicate).count() + 2 + l.len()
+}
+
 fn part_1(input: &str) -> usize {
     input
         .lines()
         .fold(0, |sum, l| sum + (l.len() - get_total_characters_len(l)))
 }
 
-fn part_2(_input: &str) -> u32 {
-    0
+fn part_2(input: &str) -> usize {
+    input
+        .lines()
+        .fold(0, |sum, l| sum + (encode_characters(l) - l.len()))
 }
 
 fn main() {
@@ -44,5 +51,13 @@ mod day08 {
         assert_eq!(3, get_total_characters_len(r#""abc""#));
         assert_eq!(7, get_total_characters_len(r#""aaa\"aaa""#));
         assert_eq!(1, get_total_characters_len(r#""\x27""#));
+    }
+
+    #[test]
+    fn test_encode_characters() {
+        assert_eq!(6, encode_characters(r#""""#));
+        assert_eq!(9, encode_characters(r#""abc""#));
+        assert_eq!(16, encode_characters(r#""aaa\"aaa""#));
+        assert_eq!(11, encode_characters(r#""\x27""#));
     }
 }
