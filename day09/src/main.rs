@@ -36,10 +36,6 @@ fn main() {
     let content = content.trim();
     let map = parse_input(content);
 
-    for (town, distance) in map {
-        println!("{} -> {} {}", town, distance.0, distance.1);
-    }
-    let mut perms = map[..].permutations();
     println!("First puzzle: {}", part_1(&content));
     println!("Second puzzle: {}", part_2(&content));
 }
