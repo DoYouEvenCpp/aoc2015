@@ -1,9 +1,11 @@
 use std::fs;
 
-fn single_iteration(input: &str) -> str {
+fn single_iteration(input: &str) -> String {
     let numbers: Vec<(u32, u32)>;
+    let res: String = "".to_owned();
     for ch in input.chars() {
     }
+    res
 }
 
 fn part_1(input: &str) -> usize {
