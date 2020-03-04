@@ -1,11 +1,9 @@
-
 fn single_iteration(input: &Vec<u32>) -> Vec<u32> {
     let mut numbers: Vec<(u32, u32)> = vec![];
     for ch in input {
-        if numbers.len() == 0 {
+        if numbers.is_empty() {
             numbers.push((*ch, 1));
-        }
-        else if numbers.last().unwrap().0 == *ch {
+        } else if numbers.last().unwrap().0 == *ch {
             numbers.last_mut().unwrap().1 += 1;
         } else {
             numbers.push((*ch, 1));
@@ -47,12 +45,55 @@ fn main() {
 mod day10 {
     use super::*;
     #[test]
-    fn test_single_iteration(){
-        
-        assert_eq!([1,1], single_iteration(&"1".chars().map(|c| c.to_digit(10).unwrap()).collect::<Vec<u32>>()).as_slice());
-        assert_eq!([2,1], single_iteration(&"11".chars().map(|c| c.to_digit(10).unwrap()).collect::<Vec<u32>>()).as_slice());
-        assert_eq!([1,2,1,1], single_iteration(&"21".chars().map(|c| c.to_digit(10).unwrap()).collect::<Vec<u32>>()).as_slice());
-        assert_eq!([1,1,1,2,2,1], single_iteration(&"1211".chars().map(|c| c.to_digit(10).unwrap()).collect::<Vec<u32>>()).as_slice());
-        assert_eq!([3,1,2,2,1,1], single_iteration(&"111221".chars().map(|c| c.to_digit(10).unwrap()).collect::<Vec<u32>>()).as_slice());
+    fn test_single_iteration() {
+        assert_eq!(
+            [1, 1],
+            single_iteration(
+                &"1".chars()
+                    .map(|c| c.to_digit(10).unwrap())
+                    .collect::<Vec<u32>>()
+            )
+            .as_slice()
+        );
+        assert_eq!(
+            [2, 1],
+            single_iteration(
+                &"11"
+                    .chars()
+                    .map(|c| c.to_digit(10).unwrap())
+                    .collect::<Vec<u32>>()
+            )
+            .as_slice()
+        );
+        assert_eq!(
+            [1, 2, 1, 1],
+            single_iteration(
+                &"21"
+                    .chars()
+                    .map(|c| c.to_digit(10).unwrap())
+                    .collect::<Vec<u32>>()
+            )
+            .as_slice()
+        );
+        assert_eq!(
+            [1, 1, 1, 2, 2, 1],
+            single_iteration(
+                &"1211"
+                    .chars()
+                    .map(|c| c.to_digit(10).unwrap())
+                    .collect::<Vec<u32>>()
+            )
+            .as_slice()
+        );
+        assert_eq!(
+            [3, 1, 2, 2, 1, 1],
+            single_iteration(
+                &"111221"
+                    .chars()
+                    .map(|c| c.to_digit(10).unwrap())
+                    .collect::<Vec<u32>>()
+            )
+            .as_slice()
+        );
     }
 }
