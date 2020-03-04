@@ -1,3 +1,5 @@
+use std::convert::TryInto;
+
 fn contains_forbidden_letters(input: &str) -> bool {
     let vowels = ['i', 'u', 'l'];
     input
@@ -36,23 +38,32 @@ fn validate_password(input: &str) -> bool {
         && has_pair_repetition(input)
 }
 
-fn generate_next_password(input: &str) -> &str {
-    validate_password(input);
-    ""
+fn generate_next_password(mut input: [u8; 8]) -> String {
+    use std::str;
+    while !validate_password(std::str::from_utf8(&input).unwrap()) {
+        input[7] += 1;
+        for i in (0..8).rev() {
+            if input[i] >  b'z' {
+                input[i] = b'a';
+                input[i-1] += 1;
+            }
+        if validate_password(std::str::from_utf8(&input).unwrap()) {
+            break;
+        }
+        }
+    }
+    std::str::from_utf8(&input).unwrap().to_string()
 }
 
-fn part_1(input: &str) -> &str {
+fn part_1(input: &str) -> String {
+    let mut input: [u8;8] = input.as_bytes().try_into().unwrap();
     generate_next_password(input)
-}
-
-fn part_2(input: &str) -> usize {
-    0
 }
 
 fn main() {
     let content = "hepxcrrq";
-    println!("First puzzle: {}", part_1(&content));
-    println!("Second puzzle: {}", part_2(&content));
+    println!("First puzzle: {}", part_1(content));
+    println!("Second puzzle: {}", part_1("hepxxzaa"));
 }
 
 #[cfg(test)]
@@ -84,5 +95,9 @@ mod day11 {
     fn test_validate_password() {
         assert_eq!(true, validate_password("abcdffaa"));
         assert_eq!(false, validate_password("aabbcciol"));
+    }
+    #[test]
+    fn test_generate_next_password() {
+        assert_eq!("abcdffaa", generate_next_password("abcdefgh".as_bytes().try_into().unwrap()));
     }
 }
