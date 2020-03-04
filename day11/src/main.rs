@@ -39,7 +39,6 @@ fn validate_password(input: &str) -> bool {
 }
 
 fn generate_next_password(mut input: [u8; 8]) -> String {
-    use std::str;
     while !validate_password(std::str::from_utf8(&input).unwrap()) {
         input[7] += 1;
         for i in (0..8).rev() {
@@ -56,7 +55,7 @@ fn generate_next_password(mut input: [u8; 8]) -> String {
 }
 
 fn part_1(input: &str) -> String {
-    let mut input: [u8; 8] = input.as_bytes().try_into().unwrap();
+    let input: [u8; 8] = input.as_bytes().try_into().unwrap();
     generate_next_password(input)
 }
 
