@@ -43,20 +43,20 @@ fn generate_next_password(mut input: [u8; 8]) -> String {
     while !validate_password(std::str::from_utf8(&input).unwrap()) {
         input[7] += 1;
         for i in (0..8).rev() {
-            if input[i] >  b'z' {
+            if input[i] > b'z' {
                 input[i] = b'a';
-                input[i-1] += 1;
+                input[i - 1] += 1;
             }
-        if validate_password(std::str::from_utf8(&input).unwrap()) {
-            break;
-        }
+            if validate_password(std::str::from_utf8(&input).unwrap()) {
+                break;
+            }
         }
     }
     std::str::from_utf8(&input).unwrap().to_string()
 }
 
 fn part_1(input: &str) -> String {
-    let mut input: [u8;8] = input.as_bytes().try_into().unwrap();
+    let mut input: [u8; 8] = input.as_bytes().try_into().unwrap();
     generate_next_password(input)
 }
 
@@ -98,6 +98,9 @@ mod day11 {
     }
     #[test]
     fn test_generate_next_password() {
-        assert_eq!("abcdffaa", generate_next_password("abcdefgh".as_bytes().try_into().unwrap()));
+        assert_eq!(
+            "abcdffaa",
+            generate_next_password("abcdefgh".as_bytes().try_into().unwrap())
+        );
     }
 }
