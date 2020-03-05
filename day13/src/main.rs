@@ -12,7 +12,7 @@ type MapType = HashMap<String, Vec<Relationship>>;
 fn parse_input(input: &str) -> MapType {
     let mut m = MapType::new();
     for line in input.lines() {
-        let mut splitted: Vec<&str> = line.splitn(2, "next to ").collect();
+        let splitted: Vec<&str> = line.splitn(2, "next to ").collect();
         let other_person = splitted[1];
         let other_person = other_person.replace('.', "");
         let name_value: Vec<&str> = splitted[0].splitn(2, " happiness").collect();
@@ -21,8 +21,8 @@ fn parse_input(input: &str) -> MapType {
             .splitn(2, " would ")
             .nth(1)
             .map(|s| match s.split_at("gain".len()).0 {
-                "gain" => return s.split_at("gain ".len()).1.parse::<i32>().unwrap(),
-                "lose" => return -s.split_at("gain ".len()).1.parse::<i32>().unwrap(),
+                "gain" => s.split_at("gain ".len()).1.parse::<i32>().unwrap(),
+                "lose" => -s.split_at("gain ".len()).1.parse::<i32>().unwrap(),
                 _ => panic!("xD"),
             })
             .unwrap();
@@ -67,7 +67,7 @@ mod day13 {
         Carol would gain 55 happiness units by sitting next to David.
         David would gain 46 happiness units by sitting next to Alice.
         David would lose 7 happiness units by sitting next to Bob.
-        David would gain 41 happiness units by sitting next to Carol.",
+        David would gain 41 happiness units by sitting next to Carol."
         );
         assert_eq!(4, m.len());
         assert_eq!(true, m.contains_key(&"Alice".to_string()));
