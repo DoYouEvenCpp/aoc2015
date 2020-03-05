@@ -35,6 +35,10 @@ fn parse_input(input: &str) -> MapType {
     m
 }
 
+fn get_happiness_value(n: &String, relationships: &Vec<Relationship>) -> i32 {
+    relationships.iter().find(|r| &r.name == n).unwrap().val
+}
+
 fn part_1(input: &str) -> u32 {
     0
 }
@@ -67,7 +71,7 @@ mod day13 {
         Carol would gain 55 happiness units by sitting next to David.
         David would gain 46 happiness units by sitting next to Alice.
         David would lose 7 happiness units by sitting next to Bob.
-        David would gain 41 happiness units by sitting next to Carol."
+        David would gain 41 happiness units by sitting next to Carol.",
         );
         assert_eq!(4, m.len());
         assert_eq!(true, m.contains_key(&"Alice".to_string()));
@@ -91,5 +95,21 @@ mod day13 {
             ],
             m.get("Alice").unwrap().as_slice()
         );
+    }
+
+    #[test]
+    fn test_get_happiness_value() {
+        let m = parse_input(
+            "Alice would gain 54 happiness units by sitting next to Bob.
+        Alice would lose 79 happiness units by sitting next to Carol.
+        Alice would lose 2 happiness units by sitting next to David.",
+        );
+        let relationships = m.get("Alice").unwrap();
+        assert_eq!(54, get_happiness_value(&"Bob".to_owned(), &relationships));
+        assert_eq!(
+            -79,
+            get_happiness_value(&"Carol".to_owned(), &relationships)
+        );
+        assert_eq!(-2, get_happiness_value(&"David".to_owned(), &relationships));
     }
 }
