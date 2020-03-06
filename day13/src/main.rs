@@ -36,7 +36,7 @@ fn parse_input(input: &str) -> MapType {
     m
 }
 
-fn get_happiness_value(n: &String, relationships: &Vec<Relationship>) -> i32 {
+fn get_happiness_value(n: &String, relationships: &[Relationship]) -> i32 {
     match relationships.iter().find(|r| &r.name == n) {
         Some(s) => s.val,
         _ => 0,
@@ -83,7 +83,7 @@ fn main() {
             val: 0,
         });
     }
-    input.insert("me".to_string(), mine_relationship.to_owned());
+    input.insert("me".to_string(), mine_relationship);
 
     println!("Second puzzle: {}", part_1(&input));
 }
