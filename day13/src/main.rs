@@ -37,7 +37,10 @@ fn parse_input(input: &str) -> MapType {
 }
 
 fn get_happiness_value(n: &String, relationships: &Vec<Relationship>) -> i32 {
-    relationships.iter().find(|r| &r.name == n).unwrap().val
+    match relationships.iter().find(|r| &r.name == n) {
+        Some(s) => s.val,
+        _ => 0,
+    }
 }
 
 fn part_1(input: &MapType) -> i32 {
@@ -63,16 +66,26 @@ fn part_1(input: &MapType) -> i32 {
     *vals.iter().max().unwrap()
 }
 
-fn part_2(_input: &MapType) -> i32 {
-    0
-}
-
 fn main() {
     let content = fs::read_to_string("input").expect("file not found");
     let content = content.trim();
-    let input = parse_input(content);
+    let mut input = parse_input(&content);
     println!("First puzzle: {}", part_1(&input));
-    println!("Second puzzle: {}", part_2(&input));
+
+    let mut mine_relationship: Vec<Relationship> = vec![];
+    for (key, rel) in &mut input {
+        mine_relationship.push(Relationship {
+            name: key.to_string(),
+            val: 0,
+        });
+        rel.push(Relationship {
+            name: "me".to_string(),
+            val: 0,
+        });
+    }
+    input.insert("me".to_string(), mine_relationship.to_owned());
+
+    println!("Second puzzle: {}", part_1(&input));
 }
 
 #[cfg(test)]
