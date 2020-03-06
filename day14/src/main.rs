@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-use std::fs;
 
 #[derive(PartialEq, Eq, Hash, Clone, Debug)]
 struct Velocity {
@@ -12,7 +10,6 @@ type DataType = std::collections::HashMap<String, Velocity>;
 
 fn parse_input() -> DataType {
     let mut m = DataType::new();
-    let mut m = DataType::new();
     m.insert("Vixen".to_string(),   Velocity{speed: 19, time: 7,    rest: 124});
     m.insert("Rudolph".to_string(), Velocity{speed: 3,  time: 15,   rest: 28});
     m.insert("Donner".to_string(),  Velocity{speed: 19, time: 9,    rest: 164});
@@ -23,12 +20,11 @@ fn parse_input() -> DataType {
     m.insert("Dancer".to_string(),  Velocity{speed: 3,  time: 16,   rest: 37});
     m.insert("Prancer".to_string(), Velocity{speed: 25, time: 6,    rest: 143});
     m
-    m
 }
 
 fn part_1(input: &DataType, time: u32) -> u32 {
     let mut distances = std::collections::HashSet::<u32>::new();
-    for (_, val) in input {
+    for val in input.values() {
         let total_time = val.time + val.rest;
         let mut count = time / total_time;
         let modulo_rest = time % total_time;
