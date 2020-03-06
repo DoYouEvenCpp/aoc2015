@@ -40,68 +40,37 @@ fn get_happiness_value(n: &String, relationships: &Vec<Relationship>) -> i32 {
     relationships.iter().find(|r| &r.name == n).unwrap().val
 }
 
-fn part_1(input: &MapType) -> u32 {
-    let vals = std::collections::HashSet::<i32>::new();
+fn part_1(input: &MapType) -> i32 {
+    let mut vals = std::collections::HashSet::<i32>::new();
     for (name, values) in input {
         for p in values.iter().permutations(values.len()).unique() {
-
             //TODO: REFACTOR
             //ugly as fuck :|
-            let mut tmp  = vec![name.to_string()];
+            let mut tmp = vec![name.to_string()];
             let mut dd: Vec<String> = p.iter().map(|r| r.name.to_owned()).collect();
-            let mut ee  = vec![name.to_string()];
+            let mut ee = vec![name.to_string()];
             tmp.append(&mut dd);
             tmp.append(&mut ee);
             //REFACTOR UNTIL HERE
 
-            //CONTINUE BELOW
-            let sum = tmp.windows(2).enumerate().fold(0, |acc, p| {
-                acc + get
-            })
-            println!("{} - {:?}", name, tmp);
+            let sum = tmp.windows(2).fold(0, |acc, p| {
+                acc + get_happiness_value(&p[1], input.get(&p[0]).unwrap())
+                    + get_happiness_value(&p[0], input.get(&p[1]).unwrap())
+            });
+            vals.insert(sum);
         }
     }
-
-    // for (start, vertexes) in &map {
-    //     for perm in vertexes.iter().permutations(vertexes.len()).unique() {
-    //         current_town = start.to_owned();
-    //         let mut sum = 0;
-    //         for edge in perm {
-    //             sum += map
-    //                 .get(&current_town)
-    //                 .unwrap()
-    //                 .iter()
-    //                 .filter(|e| e.vertex == edge.vertex)
-    //                 .fold(0, |acc, e| acc + e.distance);
-    //             current_town = edge.vertex.to_owned();
-    //         }
-    //         distances.insert(sum);
-    //     }
-    // }
-    0
+    *vals.iter().max().unwrap()
 }
 
-fn part_2(_input: &MapType) -> u32 {
+fn part_2(_input: &MapType) -> i32 {
     0
 }
 
 fn main() {
     let content = fs::read_to_string("input").expect("file not found");
     let content = content.trim();
-    let input = parse_input(
-        "Alice would gain 54 happiness units by sitting next to Bob.
-    Alice would lose 79 happiness units by sitting next to Carol.
-    Alice would lose 2 happiness units by sitting next to David.
-    Bob would gain 83 happiness units by sitting next to Alice.
-    Bob would lose 7 happiness units by sitting next to Carol.
-    Bob would lose 63 happiness units by sitting next to David.
-    Carol would lose 62 happiness units by sitting next to Alice.
-    Carol would gain 60 happiness units by sitting next to Bob.
-    Carol would gain 55 happiness units by sitting next to David.
-    David would gain 46 happiness units by sitting next to Alice.
-    David would lose 7 happiness units by sitting next to Bob.
-    David would gain 41 happiness units by sitting next to Carol.",
-    );
+    let input = parse_input(content);
     println!("First puzzle: {}", part_1(&input));
     println!("Second puzzle: {}", part_2(&input));
 }
@@ -163,5 +132,24 @@ mod day13 {
             get_happiness_value(&"Carol".to_owned(), &relationships)
         );
         assert_eq!(-2, get_happiness_value(&"David".to_owned(), &relationships));
+    }
+
+    #[test]
+    fn test_par_1() {
+        let input = parse_input(
+            "Alice would gain 54 happiness units by sitting next to Bob.
+        Alice would lose 79 happiness units by sitting next to Carol.
+        Alice would lose 2 happiness units by sitting next to David.
+        Bob would gain 83 happiness units by sitting next to Alice.
+        Bob would lose 7 happiness units by sitting next to Carol.
+        Bob would lose 63 happiness units by sitting next to David.
+        Carol would lose 62 happiness units by sitting next to Alice.
+        Carol would gain 60 happiness units by sitting next to Bob.
+        Carol would gain 55 happiness units by sitting next to David.
+        David would gain 46 happiness units by sitting next to Alice.
+        David would lose 7 happiness units by sitting next to Bob.
+        David would gain 41 happiness units by sitting next to Carol.",
+        );
+        assert_eq!(330, part_1(&input));
     }
 }
