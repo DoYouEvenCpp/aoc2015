@@ -18,11 +18,11 @@ fn get_input() -> DataType {
     m
 }
 
-fn part_1(input: &DataType, time: u32) -> u32 {
+fn part_1(input: &DataType, spoons: u32) -> u32 {
     0
 }
 
-fn part_2(input: &DataType, t: u32) -> u32 {
+fn part_2(input: &DataType, spoons: u32) -> u32 {
     0
 }
 
