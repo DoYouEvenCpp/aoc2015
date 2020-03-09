@@ -1,6 +1,3 @@
-use std::collections::HashMap;
-
-
 #[derive(PartialEq, Eq, Hash, Clone, Debug)]
 struct Velocity {
     velocity: u32,
@@ -42,15 +39,15 @@ fn part_1(input: &DataType, time: u32) -> u32 {
 
 fn part_2(input: &mut DataType, t: u32) -> u32 {
     let mut current_leaderboard = Leaderboard::new();
-    current_leaderboard.insert("Vixen".to_string(), (0,0));
-    current_leaderboard.insert("Rudolph".to_string(), (0,0));
-    current_leaderboard.insert("Donner".to_string(), (0,0));
-    current_leaderboard.insert("Blitzen".to_string(), (0,0));
-    current_leaderboard.insert("Comet".to_string(), (0,0));
-    current_leaderboard.insert("Cupid".to_string(), (0,0));
-    current_leaderboard.insert("Dasher".to_string(), (0,0));
-    current_leaderboard.insert("Dancer".to_string(), (0,0));
-    current_leaderboard.insert("Prancer".to_string(), (0,0));
+    current_leaderboard.insert("Vixen".to_string(), (0, 0));
+    current_leaderboard.insert("Rudolph".to_string(), (0, 0));
+    current_leaderboard.insert("Donner".to_string(), (0, 0));
+    current_leaderboard.insert("Blitzen".to_string(), (0, 0));
+    current_leaderboard.insert("Comet".to_string(), (0, 0));
+    current_leaderboard.insert("Cupid".to_string(), (0, 0));
+    current_leaderboard.insert("Dasher".to_string(), (0, 0));
+    current_leaderboard.insert("Dancer".to_string(), (0, 0));
+    current_leaderboard.insert("Prancer".to_string(), (0, 0));
 
     for current_time in 0..=t {
         input.iter().for_each(|entry| {
@@ -59,12 +56,12 @@ fn part_2(input: &mut DataType, t: u32) -> u32 {
                 //still bursting
                 match current_leaderboard.get_mut(entry.0) {
                     Some(v) => v.0 += entry.1.velocity,
-                    _ => panic!("xd")
+                    _ => panic!("xd"),
                 }
             }
         });
         let current_max = current_leaderboard.iter().map(|(_, v)| v).max().unwrap().0;
-        for (_, val) in &mut current_leaderboard {
+        for val in &mut current_leaderboard.values_mut() {
             if val.0 == current_max {
                 val.1 += 1;
             }
