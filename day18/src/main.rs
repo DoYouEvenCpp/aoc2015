@@ -38,7 +38,38 @@ fn get_number_of_neighbours(state: char, x: usize, y: usize, map: &Map) -> u32 {
 
 
 fn part_1(input: &Map) -> u32 {
-    0
+    let mut count: u32 = 0;
+    let mut input = input;
+    let mut tmp = input;
+    for iteration in 0..100 {
+        for x in 0..100 {
+            for y in 0..100 {
+                let number_of_neighbours = get_number_of_neighbours(input[x][y], x, y, &input);
+                match input[x][y] {
+                    '#' => {
+                        if number_of_neighbours < 2 || number_of_neighbours > 3 {
+                            tmp[x][y] = '.';
+                        }
+                    }
+                    '.' => {
+                        if number_of_neighbours == 3 {
+                            tmp[x][y] = '#';
+                        }
+                    }
+                    _ => panic!("xD")
+                }
+            }
+        }
+        input = tmp;
+    }
+    for x in 0..100 {
+        for y in 0..100 {
+            if input[x][y] == '#' {
+                count += 1;
+            }
+        }
+    }
+    count
 }
 
 fn part_2(input: &Map) -> u32 {
@@ -47,8 +78,8 @@ fn part_2(input: &Map) -> u32 {
 
 fn main() {
     let content = fs::read_to_string("input").expect("file not found");
-    let content = pase_input(content.trim());
-    println!("First puzzle: {}", part_1(&content));
+    let mut content = pase_input(content.trim());
+    println!("First puzzle: {}", part_1(&mut content));
     println!("Second puzzle: {}", part_2(&content));
 }
 
