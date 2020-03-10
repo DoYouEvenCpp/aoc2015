@@ -16,8 +16,24 @@ fn pase_input(input: &str) -> Map {
     data
 }
 
-fn get_number_of_neighbours(state: char, x: usize, y: usize) -> u32 {
-    0
+fn does_exist(x: i32, y: i32) -> bool {
+    x > 0 && x < 100 && y > 0 && y < 100
+}
+
+fn get_number_of_neighbours(state: char, x: usize, y: usize, map: &Map) -> u32 {
+    [
+        (-1, -1),
+        (0, -1),
+        (1, -1),
+        (1, 0),
+        (1, 1),
+        (0, 1),
+        (-1, 1),
+        (-1, 0)
+    ].iter()
+    .filter(|offset| does_exist(x as i32 + offset.0, y as i32 + offset.1))
+    .filter(|offset| map[(x as i32 + offset.0) as usize][(y as i32 + offset.1) as usize] == '#')
+    .count() as u32
 }
 
 
