@@ -80,7 +80,46 @@ fn part_1(input: &Map) -> u32 {
 }
 
 fn part_2(input: &Map) -> u32 {
-    0
+    let mut count: u32 = 0;
+    let mut input = input.to_owned();
+    let mut tmp = input.clone();
+    for _ in 0..100 {
+        input[0][0] = '#';
+        input[99][0] = '#';
+        input[0][99] = '#';
+        input[99][99] = '#';        
+        for x in 0..100 {
+            for y in 0..100 {
+                let number_of_neighbours = get_number_of_neighbours(x, y, &input);
+                match input[x][y] {
+                    '#' => {
+                        if number_of_neighbours < 2 || number_of_neighbours > 3 {
+                            tmp[x][y] = '.';
+                        }
+                    }
+                    '.' => {
+                        if number_of_neighbours == 3 {
+                            tmp[x][y] = '#';
+                        }
+                    }
+                    _ => panic!("xD")
+                }
+                tmp[0][0] = '#';
+                tmp[99][0] = '#';
+                tmp[0][99] = '#';
+                tmp[99][99] = '#';  
+            }
+        }
+        input = tmp.clone();
+    }
+    for x in 0..100 {
+        for y in 0..100 {
+            if input[x][y] == '#' {
+                count += 1;
+            }
+        }
+    }
+    count
 }
 
 fn main() {
