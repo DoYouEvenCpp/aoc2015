@@ -42,8 +42,7 @@ fn get_number_of_lit_ligts(map: &Map) -> u32 {
         .fold(0, |sum, _| sum + 1)
 }
 
-fn part_1(input: &Map) -> u32 {
-    let mut input = input.to_owned();
+fn part_1(mut input: Map) -> u32 {
     let mut tmp = input.clone();
     for _ in 0..100 {
         for x in 0..100 {
@@ -69,8 +68,7 @@ fn part_1(input: &Map) -> u32 {
     get_number_of_lit_ligts(&input)
 }
 
-fn part_2(input: &Map) -> u32 {
-    let mut input = input.to_owned();
+fn part_2(mut input: Map) -> u32 {
     let mut tmp = input.clone();
     for _ in 0..100 {
         input[0][0] = '#';
@@ -107,6 +105,6 @@ fn part_2(input: &Map) -> u32 {
 fn main() {
     let content = fs::read_to_string("input").expect("file not found");
     let content = pase_input(content.trim());
-    println!("First puzzle: {}", part_1(&content));
-    println!("Second puzzle: {}", part_2(&content));
+    println!("First puzzle: {}", part_1(content.clone()));
+    println!("Second puzzle: {}", part_2(content));
 }
