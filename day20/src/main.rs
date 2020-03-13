@@ -1,34 +1,31 @@
+fn part_1(presents_limit: usize) -> usize {
+    let presents_limit = presents_limit / 10;
+    let mut houses = vec![0; presents_limit];
 
-fn part_1(limit: u32) -> u32 {
-    let limit = limit/10;
-    let mut house_number = 1;
-    let mut cache = std::collections::HashMap::new();
-    loop {
-        if (1..=house_number)
-            .filter(|v| house_number % v == 0)
-            .collect::<Vec<u32>>()
-            .iter()
-            .map(|e| cache.entry(*e).or_insert(*e).to_owned())
-            .sum::<u32>()
-            >= limit
-        {
-            break;
-        }
-
-        house_number += 1;
-        if house_number % 10000 == 0 {
-            println!("After {} houses", house_number);
-        }
+    for elf in 0..presents_limit {
+        (elf..presents_limit)
+            .step_by(elf + 1)
+            .for_each(|v| houses[v] += elf + 1);
     }
-    house_number
+
+    houses.iter().position(|&p| p >= presents_limit).unwrap() + 1
 }
 
-fn part_2(limit: u32) -> u32 {
-0
+fn part_2(presents_limit: usize) -> usize {
+    let mut houses = vec![0; presents_limit];
+
+    for elf in 0..presents_limit {
+        (elf..presents_limit)
+            .step_by(elf + 1)
+            .take(50)
+            .for_each(|v| houses[v] += (elf + 1) * 11);
+    }
+
+    houses.iter().position(|&p| p >= presents_limit).unwrap() + 1
 }
 
 fn main() {
     let input = 33_100_000;
-    //println!("First puzzle: {}", part_1(input));
+    println!("First puzzle: {}", part_1(input));
     println!("Second puzzle: {}", part_2(input));
 }
