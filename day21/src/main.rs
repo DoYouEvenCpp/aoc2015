@@ -53,6 +53,29 @@ fn part_2() -> u32 {
 
 
 fn main() {
+    let weapons = vec![Item::weapon(8, 4),
+        Item::weapon(10, 5),
+        Item::weapon(25, 6),
+        Item::weapon(40, 7),
+        Item::weapon(74, 8)];
+
+    let armours = vec![
+        Item::armour(13, 1),
+        Item::armour(31, 2),
+        Item::armour(53, 3),
+        Item::armour(75, 4),
+        Item::armour(102, 5),];
+
+    let rings = vec![
+        Item::ring(25, 1, 0),
+        Item::ring(50, 2, 0),
+        Item::ring(100, 3, 0),
+        Item::ring(20, 0, 1),
+        Item::ring(40, 0, 2),
+        Item::ring(80, 0, 3)];
+
+    let boss = Player::new(103, 9 , 2);
+
     println!("First puzzle: {}", part_1());
     println!("Second puzzle: {}", part_2());
 }
