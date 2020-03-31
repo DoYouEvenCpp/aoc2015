@@ -1,6 +1,5 @@
-
 fn get_cell_number(x: usize, y: usize) -> usize {
-    let mut pos = (1,1);
+    let mut pos = (1, 1);
     let mut counter = 1;
 
     loop {
@@ -21,10 +20,10 @@ fn get_cell_number(x: usize, y: usize) -> usize {
 
 fn main() {
     let cell_number = get_cell_number(2981, 3075);
-    let mut val: usize = 20151125;
+    let mut val: usize = 20_151_125;
     for _ in 1..cell_number {
-        val *= 252533;
-        val %= 33554393;
+        val *= 252_533;
+        val %= 33_554_393;
     }
     println!("{}", val);
 }
@@ -35,12 +34,12 @@ mod day25 {
 
     #[test]
     fn test_get_cell_number() {
-        assert_eq!(1, get_cell_number(1,1));
-        assert_eq!(2, get_cell_number(2,1));
-        assert_eq!(3, get_cell_number(1,2));
-        assert_eq!(4, get_cell_number(3,1));
-        assert_eq!(5, get_cell_number(2,2));
-        assert_eq!(6, get_cell_number(1,3));
-        assert_eq!(21, get_cell_number(1,6));
+        assert_eq!(1, get_cell_number(1, 1));
+        assert_eq!(2, get_cell_number(2, 1));
+        assert_eq!(3, get_cell_number(1, 2));
+        assert_eq!(4, get_cell_number(3, 1));
+        assert_eq!(5, get_cell_number(2, 2));
+        assert_eq!(6, get_cell_number(1, 3));
+        assert_eq!(21, get_cell_number(1, 6));
     }
 }

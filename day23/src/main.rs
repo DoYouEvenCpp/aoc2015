@@ -7,7 +7,6 @@ struct Computer {
     pc: i32,
 }
 
-
 impl Computer {
     fn new(memory: &str) -> Self {
         Computer {
@@ -39,7 +38,7 @@ impl Computer {
                     self.increment(register);
                 }
                 "jmp" => {
-                    let offset = cmd[1].parse::<i32>().unwrap(); 
+                    let offset = cmd[1].parse::<i32>().unwrap();
                     self.jump(offset);
                 }
                 "jie" => {
@@ -52,16 +51,15 @@ impl Computer {
                     let offset = cmd[2].parse::<i32>().unwrap();
                     self.jump_if_one(register, offset);
                 }
-                _ => panic!()
+                _ => panic!(),
             }
-
         }
     }
     fn half(&mut self, r: &str) {
         match r {
             "a" => self.reg_a /= 2,
             "b" => self.reg_b /= 2,
-            _ => panic!()
+            _ => panic!(),
         }
         self.pc += 1;
     }
@@ -70,7 +68,7 @@ impl Computer {
         match r {
             "a" => self.reg_a *= 3,
             "b" => self.reg_b *= 3,
-            _ => panic!()
+            _ => panic!(),
         }
         self.pc += 1
     }
@@ -79,7 +77,7 @@ impl Computer {
         match r {
             "a" => self.reg_a += 1,
             "b" => self.reg_b += 1,
-            _ => panic!()
+            _ => panic!(),
         }
         self.pc += 1
     }
@@ -93,20 +91,18 @@ impl Computer {
             "a" => {
                 if self.reg_a % 2 == 0 {
                     self.pc += step
-                }
-                else {
+                } else {
                     self.pc += 1;
                 }
             }
             "b" => {
                 if self.reg_b % 2 == 0 {
                     self.pc += step
-                }
-                else {
+                } else {
                     self.pc += 1;
                 }
             }
-            _ => panic!()
+            _ => panic!(),
         }
     }
 
@@ -115,23 +111,20 @@ impl Computer {
             "a" => {
                 if self.reg_a == 1 {
                     self.pc += step
-                }
-                else {
+                } else {
                     self.pc += 1;
                 }
             }
             "b" => {
                 if self.reg_b == 1 {
                     self.pc += step
-                }
-                else {
+                } else {
                     self.pc += 1;
                 }
             }
-            _ => panic!()
+            _ => panic!(),
         }
     }
-    
 }
 
 fn part_1(input: &str) -> usize {
@@ -153,7 +146,6 @@ fn main() {
     println!("Part 1: {}", part_1(input));
     println!("Part 2: {}", part_2(input));
 }
-
 
 #[cfg(test)]
 mod day23 {
