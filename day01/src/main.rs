@@ -18,17 +18,14 @@
  * cargo fmt
  */
 use std::fs;
-fn part_1(_input: &str) -> i32 {
-    let mut level: i32 = 0;
-    for c in _input.chars() {
-        match c {
-            ')' => level += -1,
-            '(' => level += 1,
-            _ => (),
+fn part_1(input: &str) -> i32 {
+    input.chars().fold(0, |acc, ch|{
+        match ch {
+            ')' => acc - 1,
+            '(' => acc + 1,
+            _ => acc,
         }
-    }
-    println!("First puzzle {}", level);
-    level
+    })
 }
 fn part_2(_input: &str) -> usize {
     let mut level: i32 = 0;
